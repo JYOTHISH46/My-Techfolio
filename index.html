@@ -94,15 +94,32 @@
             document.getElementById('contact-form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 // these IDs from the previous steps
-                const name=document.getElementById("name").value.trim();
-                const email=document.getElementById("email").value.trim();
-                const message=document.getElementById("message").value.trim();
+              const name = document.getElementById("name").value.trim();
+              const email = document.getElementById("email").value.trim();
+              const message = document.getElementById("message").value.trim();
 
-                if (name === "" || email === "" || message === "") {
-                    alert("⚠️ Please fill all fields!");
-                    return;
-                }
-                emailjs.send('service_ggawnge', 'template_3rzxxbb', {
+              const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+              if (name === "") {
+                  alert("Please enter your name");
+                  return;
+              }
+
+              if (name.length < 3) {
+                  alert("Name must be at least 3 characters");
+                  return;
+              }
+
+              if (!emailPattern.test(email)) {
+                  alert("Please enter a valid email address");
+                  return;
+              }
+
+              if (message.length < 10) {
+                  alert("Message must contain at least 10 characters");
+                  return;
+              }
+                  emailjs.send('service_ggawnge', 'template_3rzxxbb', {
                   form_name:name,
                   form_email:email,
                   message:message,
@@ -110,10 +127,10 @@
                 })
 
                     .then(() => {
-                        alert("✅ Email Sent Successfully!");
+                        alert("Email Sent Successfully!");
                         document.getElementById("contact-form").reset();
                     }, (error) => {
-                      alert("❌ Failed to send email!");
+                      alert("Failed to send email!");
                         console.log(error);
                     });
             });
@@ -1184,6 +1201,7 @@
       Do you have any questions about emerging technologies, programming, web development, or future innovations in the tech industry?
     </p>
   </div>
+  
   <form id="contact-form" class="mx-auto w-full pt-10 sm:w-3/4" >
     <div class="flex flex-col md:flex-row">
       <input
